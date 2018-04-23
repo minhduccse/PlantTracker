@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView mainNav;
+    public BottomNavigationView mainNav;
     private FrameLayout mainFrame;
 
     private HomeFragment homeFragment;
@@ -33,32 +33,34 @@ public class MainActivity extends AppCompatActivity {
         moistureFragment = new MoistureFragment();
         lightFragment = new LightFragment();
 
-        setFragment(homeFragment);
-
-        mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.nav_home :
-                        setFragment(homeFragment);
-                        return true;
-                    case R.id.nav_temperature :
-                        setFragment(temperatureFragment);
-                        return true;
-                    case R.id.nav_humidity :
-                        setFragment(humidityFragment);
-                        return true;
-                    case R.id.nav_moisture :
-                        setFragment(moistureFragment);
-                        return true;
-                    case R.id.nav_light :
-                        setFragment(lightFragment);
-                        return true;
-                    default: return false;
+//        if (savedInstanceState == null){
+            setFragment(homeFragment);
+            mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.nav_home :
+                            setFragment(homeFragment);
+                            return true;
+                        case R.id.nav_temperature :
+                            setFragment(temperatureFragment);
+                            return true;
+                        case R.id.nav_humidity :
+                            setFragment(humidityFragment);
+                            return true;
+                        case R.id.nav_moisture :
+                            setFragment(moistureFragment);
+                            return true;
+                        case R.id.nav_light :
+                            setFragment(lightFragment);
+                            return true;
+                        default: return false;
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
+//    }
+
     private void setFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
