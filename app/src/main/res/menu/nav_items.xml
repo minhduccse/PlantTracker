@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/icons8_dog_house_50"
+        android:title="@string/nav_home" />
+    <item
+        android:id="@+id/nav_temperature"
+        android:icon="@drawable/icons8_temperature_50"
+        android:title="@string/nav_temperature" />
+    <item
+        android:id="@+id/nav_humidity"
+        android:icon="@drawable/icons8_humidity_50"
+        android:title="@string/nav_humidity" />
+    <item
+        android:id="@+id/nav_moisture"
+        android:icon="@drawable/icons8_hygrometer_50"
+        android:title="@string/nav_moisture" />
+    <item
+        android:id="@+id/nav_light"
+        android:icon="@drawable/icons8_sun_50"
+        android:title="@string/nav_light" />
+
+</menu>
