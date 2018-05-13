@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,20 +23,27 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    ListView listStatus;
+    ArrayList<String> arrItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState){
-//        super.onActivityCreated(savedInstanceState);
-//        if(savedInstanceState != null){
-//            //
-//        }
-//    }
+        listStatus = (ListView) view.findViewById(R.id.listStatus);
+        arrItem = new ArrayList<String>();
+
+        arrItem.add("Status:");
+        arrItem.add("Temperature:");
+        arrItem.add("Humidity:");
+        arrItem.add("Moisture:");
+
+        ArrayAdapter itemAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrItem);
+
+        listStatus.setAdapter(itemAdapter);
+
+        return view;
+    }
 
 }

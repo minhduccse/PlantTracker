@@ -19,9 +19,5 @@
         android:id="@+id/nav_moisture"
         android:icon="@drawable/icons8_hygrometer_50"
         android:title="@string/nav_moisture" />
-    <item
-        android:id="@+id/nav_light"
-        android:icon="@drawable/icons8_sun_50"
-        android:title="@string/nav_light" />
 
 </menu>

@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private TemperatureFragment temperatureFragment;
     private HumidityFragment humidityFragment;
     private MoistureFragment moistureFragment;
-    private LightFragment lightFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         temperatureFragment = new TemperatureFragment();
         humidityFragment = new HumidityFragment();
         moistureFragment = new MoistureFragment();
-        lightFragment = new LightFragment();
 
 //        if (savedInstanceState == null){
             setFragment(homeFragment);
@@ -50,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         case R.id.nav_moisture :
                             setFragment(moistureFragment);
-                            return true;
-                        case R.id.nav_light :
-                            setFragment(lightFragment);
                             return true;
                         default: return false;
                     }
