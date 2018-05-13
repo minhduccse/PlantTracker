@@ -1,9 +1,9 @@
 package com.minhduc.planttracker;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -27,6 +38,10 @@ public class HomeFragment extends Fragment {
     String alpha;
     String status, temperature, humidity, moisture;
     String updateStatus, updateTemperature, updateHumidity, updateMoisture;
+    String JSON_STRING;
+
+    JSONObject jsonObject;
+    JSONArray jsonArray;
 
     ListView listStatus;
     ArrayList<String> arrItem;
@@ -57,11 +72,13 @@ public class HomeFragment extends Fragment {
 
         updateHomeFragment();
 
-        Handler handler = new Handler();
+        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 updateHomeFragment();
+                final Runnable runnable = this;
+                handler.postDelayed(runnable, 5000);
             }
         }, 5000);
 
@@ -69,7 +86,7 @@ public class HomeFragment extends Fragment {
     }
 
     void updateHomeFragment(){
-        methodGET();
+        new JSONTask().execute();
         statusCheck();
 
         updateStatus = status + alpha;
@@ -90,7 +107,54 @@ public class HomeFragment extends Fragment {
         else if(x >= 30){ alpha = "Too hot!!!";}
     }
 
-    void methodGET(){
-        x = 29; y = 90; z = 90;
+    public class  JSONTask extends AsyncTask<Void, Void, String>{
+        String JSON_URL;
+        @Override
+        protected void onPreExecute() {
+            JSON_URL = "https://api.thingspeak.com/channels/471086/feeds.json?results=1";
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                URL url = new URL(JSON_URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+
+            while ((JSON_STRING = bufferedReader.readLine()) != null){
+                stringBuilder.append(JSON_STRING + "\n");
+            }
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            try {
+                jsonObject = new JSONObject(stringBuilder.toString().trim());
+                jsonArray = jsonObject.getJSONArray("feeds");
+
+                JSONObject feeds = jsonArray.getJSONObject(0);
+                x = feeds.getInt("field1");
+                y = feeds.getInt("field2");
+                z = feeds.getInt("field3");
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+
+            return stringBuilder.toString().trim();
+
+            }
+            catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            itemAdapter.notifyDataSetChanged();
+        }
     }
 }
