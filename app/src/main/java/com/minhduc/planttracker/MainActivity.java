@@ -1,9 +1,12 @@
 package com.minhduc.planttracker;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -61,4 +64,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
+//
+//    public void notificationCall(String content){
+//        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+//                .setDefaults(NotificationCompat.DEFAULT_ALL)
+//                .setContentTitle("Plant Tracker")
+//                .setContentText(content);
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.notify(1, notificationBuilder.build());
+//
+//    }
 }

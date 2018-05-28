@@ -1,10 +1,10 @@
 package com.minhduc.planttracker;
 
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +104,9 @@ public class HomeFragment extends Fragment {
 
     void statusCheck(){
         if (x < 30){ alpha = "OK"; }
-        else if(x >= 30){ alpha = "Too hot!!!";}
+        else if(x >= 30){
+            alpha = "Too hot!!!";
+        }
     }
 
     public class  JSONTask extends AsyncTask<Void, Void, String>{

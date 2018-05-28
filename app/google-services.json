@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "848630914196",
+    "firebase_url": "https://planttracker-mdcse.firebaseio.com",
+    "project_id": "planttracker-mdcse",
+    "storage_bucket": "planttracker-mdcse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848630914196:android:62e34600639397fd",
+        "android_client_info": {
+          "package_name": "com.minhduc.planttracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848630914196-hhcj4eikqsc713jbltjj6f2f2cteuk59.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "848630914196-hhcj4eikqsc713jbltjj6f2f2cteuk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCPsXfYffMFoqpkBwViQ-kbg8KRH_df8Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
