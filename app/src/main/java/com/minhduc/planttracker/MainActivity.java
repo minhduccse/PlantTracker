@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         humidityFragment = new HumidityFragment();
         moistureFragment = new MoistureFragment();
 
-//        if (savedInstanceState == null){
             setFragment(homeFragment);
             mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -57,21 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-//    }
 
     private void setFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
-//
-//    public void notificationCall(String content){
-//        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-//                .setDefaults(NotificationCompat.DEFAULT_ALL)
-//                .setContentTitle("Plant Tracker")
-//                .setContentText(content);
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        notificationManager.notify(1, notificationBuilder.build());
-//
-//    }
 }

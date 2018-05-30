@@ -5,11 +5,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+//import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ListView;
+//import android.widget.Switch;
+
+//import com.android.volley.Request;
+//import com.android.volley.RequestQueue;
+//import com.android.volley.Response;
+//import com.android.volley.VolleyError;
+//import com.android.volley.toolbox.StringRequest;
+//import com.android.volley.toolbox.Volley;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +52,10 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-    int x, y, z;
-    String alpha;
-    String status, temperature, humidity, moisture;
-    String updateStatus, updateTemperature, updateHumidity, updateMoisture;
+    int x, y, z, t;
+    String alpha, beta;
+    String status, temperature, humidity, moisture, watering;
+    String updateStatus, updateTemperature, updateHumidity, updateMoisture, updateWatering;
     String JSON_STRING;
 
     JSONObject jsonObject;
@@ -47,11 +65,46 @@ public class HomeFragment extends Fragment {
     ArrayList<String> arrItem;
 
     ArrayAdapter itemAdapter;
+    Button start, stop;
 
+    DatabaseReference wateringData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        wateringData = FirebaseDatabase.getInstance().getReference();
+
+        ValueEventListener postListener = new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Post post = dataSnapshot.getValue(Post.class);
+                t = post.Watering;
+                updateHomeFragment();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("loadPost:onCancelled", databaseError.toException());
+            }
+        };
+
+        wateringData.addValueEventListener(postListener);
+
+        start = (Button)  view.findViewById(R.id.start);
+        stop = (Button)  view.findViewById(R.id.stop);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wateringData.child("Watering").setValue(1);
+            }
+        });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wateringData.child("Watering").setValue(0);
+            }
+        });
 
         listStatus = (ListView) view.findViewById(R.id.listStatus);
         arrItem = new ArrayList<String>();
@@ -60,11 +113,13 @@ public class HomeFragment extends Fragment {
         temperature = "Temperature: ";
         humidity = "Humidity: ";
         moisture = "Moisture: ";
+        watering = "Watering: ";
 
         arrItem.add(status);
         arrItem.add(temperature);
         arrItem.add(humidity);
         arrItem.add(moisture);
+        arrItem.add(watering);
 
         itemAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrItem);
 
@@ -80,7 +135,7 @@ public class HomeFragment extends Fragment {
                 final Runnable runnable = this;
                 handler.postDelayed(runnable, 5000);
             }
-        }, 5000);
+        }, 3000);
 
         return view;
     }
@@ -93,11 +148,13 @@ public class HomeFragment extends Fragment {
         updateTemperature = temperature + x + "°C";
         updateHumidity = humidity + y + "%";
         updateMoisture = moisture + z + "%";
+        updateWatering = watering + beta;
 
         arrItem.set(0, updateStatus);
         arrItem.set(1, updateTemperature);
         arrItem.set(2, updateHumidity);
         arrItem.set(3, updateMoisture);
+        arrItem.set(4, updateWatering);
 
         itemAdapter.notifyDataSetChanged();
     }
@@ -107,6 +164,8 @@ public class HomeFragment extends Fragment {
         else if(x >= 30){
             alpha = "Too hot!!!";
         }
+        if (t == 0){ beta = "No"; }
+        else { beta = "Yes"; }
     }
 
     public class  JSONTask extends AsyncTask<Void, Void, String>{
