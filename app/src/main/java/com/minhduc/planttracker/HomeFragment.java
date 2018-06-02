@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
                 wateringData.child("Watering").setValue(0);
             }
         });
-
+    //Initial status
         listStatus = (ListView) view.findViewById(R.id.listStatus);
         arrItem = new ArrayList<String>();
 
@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
         listStatus.setAdapter(itemAdapter);
 
         updateHomeFragment();
-
+    //Loop calls update function
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
+    //Update home fragment
     void updateHomeFragment(){
         new JSONTask().execute();
         statusCheck();
@@ -158,16 +158,19 @@ public class HomeFragment extends Fragment {
 
         itemAdapter.notifyDataSetChanged();
     }
-
+    //Check and update status, watering
     void statusCheck(){
-        if (x < 30){ alpha = "OK"; }
-        else if(x >= 30){
-            alpha = "Too hot!!!";
-        }
+        if(x >= 30 && y >= 90 && z >= 90){ alpha = "Temperature, humidity, moisture too high!!!"; }
+        else if(x >= 30 && y >= 90 && z < 90){ alpha = "Temperature, humidity too high!!!"; }
+        else if(x >= 30 && y < 90 && z >= 90){ alpha = "Temperature, moisture too high!!!"; }
+        else if(x >= 30 && y < 90 && z < 90){ alpha = "Temperature too high!!!"; }
+        else if(x < 30 && y >= 90 && z < 90){ alpha = "Humidity too high!!!"; }
+        else if(x < 30 && y < 90 && z >= 90){ alpha = "Moisture too high!!!"; }
+        else { alpha = "OK";}
         if (t == 0){ beta = "No"; }
         else { beta = "Yes"; }
     }
-
+    //Parse JSON from Thingspeak
     public class  JSONTask extends AsyncTask<Void, Void, String>{
         String JSON_URL;
         @Override
